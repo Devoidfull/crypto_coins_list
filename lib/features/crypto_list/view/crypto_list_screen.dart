@@ -1,6 +1,8 @@
+import 'package:crypto_coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:crypto_coins_list/features/crypto_list/widgets/crypto_coin_tile.dart';
 import 'package:crypto_coins_list/repositories/crypto_coins/crypto_coin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class CryptoListScreen extends StatefulWidget {
@@ -11,34 +13,38 @@ class CryptoListScreen extends StatefulWidget {
 }
 
 class _CryptoListScreenState extends State<CryptoListScreen> {
-  List<CryptoCoin>? _cryptoCoinsList;
+  final _cryptoListBloc = CryptoListBloc(GetIt.I<AbstractCoinsRepository>());
 
   @override
   void initState() {
-    _loadCryptoCoins();
     super.initState();
+    _cryptoListBloc.add(LoadCryptoList());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('CryptoCurrenciesList')),
-      body: (_cryptoCoinsList == null)
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.separated(
+      body: BlocBuilder<CryptoListBloc, CryptoListState>(
+        bloc: _cryptoListBloc,
+        builder: (context, state) {
+          if (state is CryptoListLoaded) {
+            return ListView.separated(
               padding: const EdgeInsets.only(top: 16),
-              itemCount: _cryptoCoinsList!.length,
-              separatorBuilder: (context, index) => Divider(),
+              itemCount: state.coinsList.length,
+              separatorBuilder: (context, index) => const Divider(),
               itemBuilder: (context, i) {
-                final coin = _cryptoCoinsList![i];
+                final coin = state.coinsList[i];
                 return CryptoCoinTile(coin: coin);
               },
-            ),
+            );
+          }
+          if (state is CryptoListLoadingFailure) {
+            return Center(child: Text('Something went wrong.'));
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
     );
-  }
-
-  Future<void> _loadCryptoCoins() async {
-    _cryptoCoinsList = await GetIt.I<AbstractCoinsRepository>().getCoinList();
-    setState(() {});
   }
 }
