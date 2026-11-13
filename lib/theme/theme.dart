@@ -18,6 +18,12 @@ final darkTheme = ThemeData(
       fontWeight: FontWeight.w500,
       fontSize: 20,
     ),
+
+    headlineMedium: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+      fontSize: 24,
+    ),
   ),
 
   appBarTheme: const AppBarTheme(
