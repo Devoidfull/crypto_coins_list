@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 final darkTheme = ThemeData(
   scaffoldBackgroundColor: const Color.fromARGB(255, 31, 31, 31),
-  listTileTheme: ListTileThemeData(iconColor: Colors.white),
+  listTileTheme: const ListTileThemeData(iconColor: Colors.white),
 
   dividerTheme: const DividerThemeData(color: Colors.white24),
 
