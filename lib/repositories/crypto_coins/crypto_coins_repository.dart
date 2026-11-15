@@ -29,4 +29,27 @@ class CryptoCoinsRepository implements AbstractCoinsRepository {
 
     return cryptoCoinsList;
   }
+
+  @override
+  Future<CryptoCoinDetails> getCoinDetails(String coinName) async {
+    final response = await dio.get(
+      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&names=$coinName',
+      options: Options(
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+      ),
+    );
+
+    final data = response.data as List<dynamic>;
+    final map = data.first as Map<String, dynamic>;
+
+    return CryptoCoinDetails(
+      name: map['name'],
+      priceInUSD: (map['current_price'] as num).toDouble(),
+      imageURL: map['image'],
+      high24Hours: (map['high_24h'] as num).toDouble(),
+      low24Hours: (map['low_24h'] as num).toDouble(),
+    );
+  }
 }
