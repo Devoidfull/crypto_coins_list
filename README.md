@@ -7,4 +7,7 @@
 - **Адаптация под актуальный Flutter 3 / Dart 3:** обновлена тема приложения и зависимости.
 
 ### Скриншоты:
-<img src="screenshots/home.png" width="200" alt="Главный экран">
+<p float="left">
+  <img src="screenshots/home.png" width="200" alt="Главный экран" />
+  <img src="screenshots/coin.png" width="200" alt="Экран монеты" />
+</p>
