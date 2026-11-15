@@ -20,7 +20,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
   @override
   void initState() {
     super.initState();
-    _cryptoListBloc.add(LoadCryptoList());
+    _cryptoListBloc.add(const LoadCryptoList());
   }
 
   @override
@@ -65,7 +65,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                     const SizedBox(height: 30),
                     TextButton(
                       onPressed: () {
-                        _cryptoListBloc.add(LoadCryptoList());
+                        _cryptoListBloc.add(const LoadCryptoList());
                       },
                       child: const Text('Try again'),
                     ),
